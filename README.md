@@ -2,4 +2,4 @@
 
 Mobile Development2 Class
 
-(Shariati Technical and Vocational College)
+Shariaty Technical and Vocational College
