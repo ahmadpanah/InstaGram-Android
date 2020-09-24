@@ -1,2 +1,5 @@
 # InstaGram-Android
-For Mobile Development2 Class - Shariaty Technical Collage
+
+Mobile Development2 Course
+
+Shariaty Technical and Vocational College
