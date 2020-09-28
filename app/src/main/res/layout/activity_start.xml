@@ -9,18 +9,37 @@
         android:src="@drawable/icon"
         android:layout_centerInParent="true"
         android:id="@+id/icon_image"
-        android:visibility="invisible"
         />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:id="@+id/linear_layout">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:src="@drawable/logo" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/button_background"
+            android:text="Login"
+            android:id="@+id/login" />
+
+        <androidx.legacy.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="10dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/button_background"
+            android:text="Register"
+            android:id="@+id/register" />
 
     </LinearLayout>
 
