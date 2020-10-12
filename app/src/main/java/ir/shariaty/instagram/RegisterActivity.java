@@ -34,10 +34,10 @@ public class RegisterActivity extends AppCompatActivity {
     private Button register;
     private TextView loginUser;
 
-    ProgressDialog pd;
-
-    private  DatabaseReference mRootRef;
+    private DatabaseReference mRootRef;
     private FirebaseAuth mAuth;
+
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        pd = new ProgressDialog(this);
 
         loginUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email , password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("name" , name);
                 map.put("email" , email);
