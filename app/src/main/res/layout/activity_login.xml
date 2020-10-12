@@ -29,6 +29,7 @@
         android:background="@drawable/edit_text_background"
         android:layout_marginTop="15dp"
         android:hint="Password"
+        android:inputType="textPassword"
         android:padding="10dp"
         android:id="@+id/password" />
 
