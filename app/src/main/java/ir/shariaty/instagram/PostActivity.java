@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -25,6 +27,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.hendraanggrian.appcompat.widget.SocialAutoCompleteTextView;
 import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -68,7 +73,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void upload() {
 
-        ProgressDialog pd = new ProgressDialog(this);
+        final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Uploading...");
         pd.show();
 
@@ -92,9 +97,40 @@ public class PostActivity extends AppCompatActivity {
                     imageUrl = downloadUri.toString();
 
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
-                }
-            })
+                    String postId = ref.push().getKey();
 
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("postid", postId);
+                    map.put("imageurl", imageUrl);
+                    map.put("description", description.getText().toString());
+                    map.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                    ref.child(postId).setValue(map);
+
+                    DatabaseReference mHashTagRef = FirebaseDatabase.getInstance().getReference().child("HashTags");
+                    List<String> hashTags = description.getHashtags();
+                    if (!hashTags.isEmpty()) {
+                        for (String tag : hashTags) {
+                            map.clear();
+                            map.put("tag", tag.toLowerCase());
+                            map.put("postid", postId);
+
+                            mHashTagRef.child(tag.toLowerCase()).setValue(map);
+                        }
+                    }
+
+                    pd.dismiss();
+                    startActivity(new Intent(PostActivity.this, MainActivity.class));
+                    finish();
+                }
+                }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(PostActivity.this , e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(PostActivity.this , "No Image Selected!",Toast.LENGTH_SHORT).show();
         }
     }
 
