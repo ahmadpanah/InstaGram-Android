@@ -27,10 +27,24 @@
             android:layout_height="wrap_content"
             android:id="@+id/search_bar"
             android:background="@android:color/transparent"
-            android:hint="Search..." />
+            android:hint="Search..."
+            android:layout_marginStart="10dp"/>
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_view_users"
+        android:layout_below="@id/bar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_view_tags"
+        android:layout_below="@id/recycler_view_users"
+        android:layout_marginTop="5dp"/>
 
 </RelativeLayout>
