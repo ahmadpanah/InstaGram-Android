@@ -49,23 +49,43 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        User user = mUsers.get(position);
+        final User user = mUsers.get(position);
         holder.btnFollow.setVisibility(View.VISIBLE);
 
         holder.username.setText(user.getUsername());
         holder.fullname.setText(user.getName());
 
-        Picasso.get().load(user.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(holder.imageProfile);
+        Picasso.get().load(user.getImageurl()).placeholder(R.mipmap.ic_launcher).into(holder.imageProfile);
 
         isFollowed (user.getId() , holder.btnFollow);
 
         if (user.getId().equals(firebaseUser.getUid())) {
             holder.btnFollow.setVisibility(View.GONE);
         }
+
+        holder.btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.btnFollow.getText().toString().equals(("Follow"))) {
+                    FirebaseDatabase.getInstance().getReference().child("Follow").
+                            child(firebaseUser.getUid()).child("following").child(user.getId()).setValue(true);
+
+                    FirebaseDatabase.getInstance().getReference().child("Follow").
+                            child(user.getId()).child("followers").child(firebaseUser.getUid()).setValue(true);
+                } else {
+                    FirebaseDatabase.getInstance().getReference().child("Follow").
+                            child(firebaseUser.getUid()).child("following").child(user.getId()).removeValue();
+
+                    FirebaseDatabase.getInstance().getReference().child("Follow").
+                            child(user.getId()).child("followers").child(firebaseUser.getUid()).removeValue();
+                }
+
+            }
+        });
 
     }
 
