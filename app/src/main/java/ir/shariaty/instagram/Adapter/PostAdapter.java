@@ -60,8 +60,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 User user = dataSnapshot.getValue(User.class);
-
-                Picasso.get().load(user.getImageurl()).into(holder.imageProfile);
+                if (user.getImageurl().equals("default")) {
+                    holder.imageProfile.setImageResource(R.mipmap.ic_launcher);
+                } else {
+                    Picasso.get().load(user.getImageurl()).into(holder.imageProfile);
+                }
                 holder.username.setText(user.getUsername());
                 holder.author.setText(user.getName());
             }

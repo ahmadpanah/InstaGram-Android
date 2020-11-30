@@ -26,8 +26,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/profile_image"
-
+                android:id="@+id/image_profile"
                 android:layout_margin="5dp"/>
 
             <TextView
